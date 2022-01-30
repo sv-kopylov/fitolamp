@@ -18,10 +18,19 @@ int FULL1 = 4;
 int FULL2 = 7;
 int FULL3 = 8;
 
-int currentMode = 0;
-int MODES_NUM = 8;
-int modes[] = {
 
+
+// четный индекс номер минуты в сутках, следующий нечетный индекс - режим работы начиная с этой минуты и до следующего, или до следующего дня
+// всего минут в сутках 1440
+int timeTable[] = {
+  0, 0, // с начала новых суток
+  240,1 // 4*60+0 c 4х утра
+  
+};
+
+// режимы работы
+int currentMode = 0;
+int modes[] = {
   0,  0,  0,  0,  0,  0,  0,  0, // ночь, выключить все
   1,255,  0,  0,  0,  0,  0,  0, 
   1,255,255,  0,  0,  0,  0,  0, 
@@ -29,15 +38,7 @@ int modes[] = {
   1,255,255,255,  255,0,  0,  0, 
   0,255,255,255,  255,0,  0,  0,
   1,255,255,255,  255,0,  0,  0
-//  1,255,255,  0,0,0,0,0, // утро
-  
-//  0,0,0,0,0,0,0,0, // день
-  
-//  0,0,0,0,0,0,0,0, // вечер
- 
 };
-
-
 
 void setup() {
 //  delay(3000);
@@ -77,16 +78,19 @@ void updateLights(){
 }
 
 int getMode(){
-  if(currentMode>=MODES_NUM-1){
+  
+  if(currentMode>=(sizeof(modes)/sizeof(int)) - 1){
     currentMode=0;
   }
   int resp = currentMode*8;
   currentMode ++;
   return resp;
-  
 }
 
 
+//for (i = 0; i < (sizeof(myInts)/sizeof(int)) - 1; i++) {
+//  // какие-либо операции с myInts[i]
+//}
 
 void loop() {
 
